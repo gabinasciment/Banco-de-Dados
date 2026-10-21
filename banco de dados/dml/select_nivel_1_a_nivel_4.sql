@@ -86,7 +86,7 @@ SELECT *
 SELECT P.NOME_PRODUTO AS NOME
      , P.PRECO_PRODUTO AS PRECO
      , U.DESCRICAO_UNIDADE_MEDIDA AS UNIDADE_ESTOQUE
-  FROM PRODUTOS P
+  FROM PRODUTOS P,
  INNER JOIN UNIDADE_MEDIDA U
     ON P.CODIGO_UNIDADE_MEDIDA = U.CODIGO_UNIDADE_MEDIDA
  WHERE (P.PRECO_PRODUTO < 20 OR P.PRECO_PRODUTO IS NULL)
@@ -140,7 +140,7 @@ SELECT C.CODIGO_CLIENTE AS CODIGO
 
 
 -- q. Contar a quantidade de pedidos feitos para o cliente 05. (Resultado: 2)
--- Dica: pesquise por COUNT
+
 SELECT COUNT(1) AS QUANTIDADE_PEDIDOS
   FROM PEDIDOS
  WHERE CODIGO_CLIENTE = 5;
@@ -159,7 +159,7 @@ SELECT MIN(VALOR_LIQUIDO) AS MENOR_VALOR
 -- s. Mostrar o código de cada produto e a média de quantidade por produto vendido. (39 linhas)
 -- Dica: Ordene o resultado por código do produto para melhor visualizar o resultado
 SELECT CODIGO_PRODUTO
-     , ROUND(AVG(QUANTIDADE), 2) AS MEDIA_QUANTIDADE
+     , TRUNC(ROUND(AVG(QUANTIDADE), 2)) AS MEDIA_QUANTIDADE
   FROM ITENS_PEDIDOS
  GROUP BY CODIGO_PRODUTO
  ORDER BY CODIGO_PRODUTO;
@@ -168,7 +168,7 @@ SELECT CODIGO_PRODUTO
 -- t. Mostrar o código de cada Unidade Federativa e a quantidade de clientes de cada unidade que já tenham feito pedido. (Resultado: RJ=5, ES=3, SP=3, BA=3, RS=2, PR=1, SC=1)
 -- Dica: Se você obteve um resultado diferente do que está descrito acima (possivelmente com valores maiores), observe a forma que fez a restrição para os clientes que já fizeram pedidos.
 SELECT C.UF
-     , COUNT(DISTINCT C.CODIGO_CLIENTE) AS QUANTIDADE_CLIENTES
+     , (COUNT(DISTINCT C.CODIGO_CLIENTE)) AS QUANTIDADE_CLIENTES
   FROM CLIENTES C
  INNER JOIN PEDIDOS P
     ON C.CODIGO_CLIENTE = P.CODIGO_CLIENTE
